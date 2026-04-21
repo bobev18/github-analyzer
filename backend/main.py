@@ -1,3 +1,8 @@
+import os
+import sys
+# Add the current directory (backend/) to sys.path to resolve imports on Render
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import re
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
