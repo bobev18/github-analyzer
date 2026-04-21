@@ -10,6 +10,7 @@ class GitHubUser:
         self.company = company
         self.location = location
         self.blog = blog
+        self._languages = [r["language"] for r in self.repos if r.get("language")]
 
     def get_most_used_language(self):
         """
@@ -18,19 +19,16 @@ class GitHubUser:
         if not self.repos:
             return None
         
-        # TODO: Dedup languages generation
-        languages = [r["language"] for r in self.repos if r["language"]]
-        if not languages:
+        if not self._languages:
             return None
             
-        return Counter(languages).most_common(1)[0][0]
+        return Counter(self._languages).most_common(1)[0][0]
 
     def get_all_technologies(self):
         """
         returns a list of all unique languages used in the repos
         """
-        languages = {r["language"] for r in self.repos if r["language"]}
-        return sorted(list(languages))
+        return sorted(list(set(self._languages)))
 
     def to_dict(self):
         return {
