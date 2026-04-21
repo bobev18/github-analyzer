@@ -14,6 +14,7 @@ class GitHubUser:
         if not self.repos:
             return None
         
+        # TODO: Dedup languages generation
         languages = [r["language"] for r in self.repos if r["language"]]
         if not languages:
             return None
