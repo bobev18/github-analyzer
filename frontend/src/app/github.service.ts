@@ -9,11 +9,15 @@ import { HttpClient } from '@angular/common/http';
 export class GithubService {
 
     private getBaseUrl(): string {
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const hostname = window.location.hostname;
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+        
         if (isLocal) {
             return 'http://127.0.0.1:8000';
         }
-        return (window as any).API_URL || window.location.origin;
+        
+        // Fallback to the production backend URL on Render
+        return (window as any).API_URL || 'https://github-analyzer-api.onrender.com';
     }
 
     constructor(private http: HttpClient) {}
