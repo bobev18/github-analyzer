@@ -16,6 +16,7 @@ def get_headers():
         headers["Authorization"] = f"token {TOKEN}"
     return headers
 
+# TODO: Make the use of token optional in the calls to the API
 
 def get_user_data(username):
     """
