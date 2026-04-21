@@ -35,6 +35,12 @@
           <img [src]="'https://github.com/' + data.username + '.png'" alt="Avatar" class="avatar" />
           <div class="profile-info">
             <h2>{{ data.username }}</h2>
+            <p class="bio" *ngIf="data.bio">{{ data.bio }}</p>
+            <div class="user-meta">
+              <span *ngIf="data.company">🏢 {{ data.company }}</span>
+              <span *ngIf="data.location">📍 {{ data.location }}</span>
+              <span *ngIf="data.blog">🔗 <a [href]="data.blog" target="_blank">{{ data.blog }}</a></span>
+            </div>
             <div class="badges">
               <span class="badge followers">👥 {{ data.followers }} Followers</span>
               <span class="badge repos">📦 {{ data.repos.length }} Repositories</span>
@@ -46,9 +52,13 @@
           <div class="stat-item">
             <h3>Top Language</h3>
             <div class="main-tech">{{ data.most_used_language || 'N/A' }}</div>
+            
+            <div class="chart-container">
+              <canvas #techChart></canvas>
+            </div>
           </div>
           <div class="stat-item">
-            <h3>Full Stack</h3>
+            <h3>Technology Stack</h3>
             <div class="tech-cloud">
               <span *ngFor="let tech of data.all_technologies" class="tech-tag">{{ tech }}</span>
               <span *ngIf="data.all_technologies.length === 0" class="muted">No data</span>

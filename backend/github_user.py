@@ -2,10 +2,14 @@ from collections import Counter
 
 
 class GitHubUser:
-    def __init__(self, username, followers=0, repos=None):
+    def __init__(self, username, followers=0, repos=None, bio=None, company=None, location=None, blog=None):
         self.username = username
         self.followers = followers
         self.repos = repos if repos else []
+        self.bio = bio
+        self.company = company
+        self.location = location
+        self.blog = blog
 
     def get_most_used_language(self):
         """
@@ -32,6 +36,10 @@ class GitHubUser:
         return {
             "username": self.username,
             "followers": self.followers,
+            "bio": self.bio,
+            "company": self.company,
+            "location": self.location,
+            "blog": self.blog,
             "most_used_language": self.get_most_used_language(),
             "all_technologies": self.get_all_technologies(),
             "repos": self.repos

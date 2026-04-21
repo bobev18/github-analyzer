@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GithubService } from './github.service';
+import { Chart, registerables } from 'chart.js';
 
+Chart.register(...registerables);
 
 @Component({
     selector: 'app-root',
@@ -12,11 +14,13 @@ import { GithubService } from './github.service';
 })
 
 export class AppComponent {
-
+    @ViewChild('techChart') techChartRef!: ElementRef;
+    
     githubUsername = '';
     data: any = null;
     error: string | null = null;
     loading = false;
+    chart: any = null;
 
     constructor(private githubService: GithubService) {}
 
@@ -29,11 +33,16 @@ export class AppComponent {
         this.loading = true;
         this.error = null;
         this.data = null;
+        if (this.chart) {
+            this.chart.destroy();
+            this.chart = null;
+        }
 
         this.githubService.getUser(this.githubUsername).subscribe({
             next: (response) => {
                 this.data = response;
                 this.loading = false;
+                setTimeout(() => this.initChart(), 0);
             },
             error: (err) => {
                 this.loading = false;
@@ -48,4 +57,45 @@ export class AppComponent {
         });
     }
 
+    initChart() {
+        if (!this.techChartRef || !this.data || !this.data.repos) return;
+
+        const languages = this.data.repos
+            .map((r: any) => r.language)
+            .filter((l: any) => l !== null);
+        
+        const counts: any = {};
+        languages.forEach((l: string) => counts[l] = (counts[l] || 0) + 1);
+
+        const labels = Object.keys(counts);
+        const values = Object.values(counts);
+
+        const ctx = this.techChartRef.nativeElement.getContext('2d');
+        this.chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        '#7d5fff', '#00d2ff', '#3ae374', '#ff9f1a', '#ff4dff', '#ff3838'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#8b949e',
+                            font: { size: 12, family: 'Outfit' }
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

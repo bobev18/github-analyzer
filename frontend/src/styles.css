@@ -147,7 +147,33 @@ h1 {
 
 .profile-info h2 {
   font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.bio {
+  color: var(--text-main);
+  font-size: 1.1rem;
   margin-bottom: 1rem;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.user-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.user-meta a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+}
+
+.user-meta a:hover {
+  text-decoration: underline;
 }
 
 .badges {
@@ -183,6 +209,12 @@ h1 {
   font-size: 2rem;
   font-weight: 600;
   color: var(--accent-secondary);
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  height: 250px;
+  position: relative;
 }
 
 .tech-cloud {

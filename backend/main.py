@@ -25,7 +25,11 @@ def get_user(username: str):
     user = GitHubUser(
         username=username,
         followers=user_data.get("followers", 0),
-        repos=repos_data
+        repos=repos_data,
+        bio=user_data.get("bio"),
+        company=user_data.get("company"),
+        location=user_data.get("location"),
+        blog=user_data.get("blog")
     )
     
     return user.to_dict()
