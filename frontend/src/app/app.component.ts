@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GithubService } from './github.service';
@@ -13,7 +13,7 @@ Chart.register(...registerables);
     templateUrl: './app.component.html'
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
     @ViewChild('techChart') techChartRef!: ElementRef;
     
     githubUsername = '';
@@ -22,8 +22,19 @@ export class AppComponent {
     error: string | null = null;
     loading = false;
     chart: any = null;
+    config: any = null;
 
     constructor(private githubService: GithubService) {}
+
+    ngOnInit() {
+        this.githubService.getConfig().subscribe({
+            next: (config) => {
+                this.config = config;
+                console.log('Shared Config loaded:', this.config);
+            },
+            error: (err) => console.error('Failed to load shared config', err)
+        });
+    }
 
     getFollowersLabel(): string {
         if (!this.data) return '';

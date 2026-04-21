@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from github_api import get_user_data, get_user_repos
 from github_user import GitHubUser
+from settings import get_shared_config
 
 
 app = FastAPI()
@@ -13,6 +14,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/api/config")
+def get_config():
+    return get_shared_config()
 
 @app.get("/api/user")
 def get_user(username: str, deep: bool = False):

@@ -1,13 +1,8 @@
-import os
 import requests
-from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
-
-load_dotenv()
+from settings import GITHUB_TOKEN, GITHUB_AUTH_ENABLED as AUTH_ENABLED
 
 BASE_URL = "https://api.github.com"
-TOKEN = os.getenv("GITHUB_TOKEN")
-AUTH_ENABLED = os.getenv("GITHUB_AUTH_ENABLED", "true").lower() == "true"
 
 
 def get_headers():
@@ -15,8 +10,8 @@ def get_headers():
         "Accept": "application/vnd.github.v3+json",
         "User-Agent": "GitHub-Analyzer-App"
     }
-    if TOKEN and AUTH_ENABLED:
-        headers["Authorization"] = f"token {TOKEN}"
+    if GITHUB_TOKEN and AUTH_ENABLED:
+        headers["Authorization"] = f"token {GITHUB_TOKEN}"
     return headers
 
 
