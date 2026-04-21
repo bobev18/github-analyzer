@@ -17,12 +17,27 @@ export class AppComponent {
     @ViewChild('techChart') techChartRef!: ElementRef;
     
     githubUsername = '';
+    deepAnalysis = false;
     data: any = null;
     error: string | null = null;
     loading = false;
     chart: any = null;
 
     constructor(private githubService: GithubService) {}
+
+    getFollowersLabel(): string {
+        if (!this.data) return '';
+        const count = this.data.followers;
+        if (count === 0) return 'No followers';
+        return `${count} ${count === 1 ? 'Follower' : 'Followers'}`;
+    }
+
+    getReposLabel(): string {
+        if (!this.data || !this.data.repos) return '';
+        const count = this.data.repos.length;
+        if (count === 0) return 'No repositories';
+        return `${count} ${count === 1 ? 'Repository' : 'Repositories'}`;
+    }
 
     search() {
         if (!this.githubUsername.trim()) {
@@ -38,7 +53,7 @@ export class AppComponent {
             this.chart = null;
         }
 
-        this.githubService.getUser(this.githubUsername).subscribe({
+        this.githubService.getUser(this.githubUsername, this.deepAnalysis).subscribe({
             next: (response) => {
                 this.data = response;
                 this.loading = false;

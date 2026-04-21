@@ -6,18 +6,27 @@
 
   <main>
     <section class="search-section">
-      <div class="search-box">
-        <input 
-          type="text" 
-          [(ngModel)]="githubUsername" 
-          (keyup.enter)="search()"
-          placeholder="Enter GitHub username (e.g. octocat)" 
-          [disabled]="loading"
-        />
-        <button (click)="search()" [disabled]="loading">
-          <span *ngIf="!loading">Analyze</span>
-          <span *ngIf="loading" class="loader"></span>
-        </button>
+      <div class="search-box-container">
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="githubUsername" 
+            (keyup.enter)="search()"
+            placeholder="Enter GitHub username (e.g. octocat)" 
+            [disabled]="loading"
+          />
+          <button (click)="search()" [disabled]="loading">
+            <span *ngIf="!loading">Analyze</span>
+            <span *ngIf="loading" class="loader"></span>
+          </button>
+        </div>
+        <div class="search-options">
+          <label class="toggle">
+            <input type="checkbox" [(ngModel)]="deepAnalysis">
+            <span class="slider"></span>
+            <span class="toggle-label">Deep Technology Analysis</span>
+          </label>
+        </div>
       </div>
     </section>
 
@@ -26,6 +35,23 @@
         <span class="error-icon">⚠️</span>
         <p>{{ error }}</p>
       </div>
+    </section>
+
+    <section *ngIf="data && data.is_partial" class="warning-container animate-fade-in">
+        <div class="warning-card">
+          <span class="warning-icon">⏳</span>
+          <div class="warning-content">
+            <strong>Partial Results Returned</strong>
+            <p>GitHub API rate limit was encountered. Setting up a <code>GITHUB_TOKEN</code> in the backend may alleviate this.</p>
+          </div>
+        </div>
+    </section>
+
+    <section *ngIf="data && data.followers === 0" class="info-container animate-fade-in">
+        <div class="info-card no-followers">
+          <span class="info-icon">👥</span>
+          <p>This user currently does not have any followers on GitHub.</p>
+        </div>
     </section>
 
     <section *ngIf="data" class="results-container">
@@ -42,8 +68,12 @@
               <span *ngIf="data.blog">🔗 <a [href]="data.blog" target="_blank">{{ data.blog }}</a></span>
             </div>
             <div class="badges">
-              <span class="badge followers">👥 {{ data.followers }} Followers</span>
-              <span class="badge repos">📦 {{ data.repos.length }} Repositories</span>
+              <span class="badge followers">
+                👥 {{ getFollowersLabel() }}
+              </span>
+              <span class="badge repos">
+                📦 {{ getReposLabel() }}
+              </span>
             </div>
           </div>
         </div>

@@ -12,8 +12,8 @@ export class GithubService {
 
     constructor(private http: HttpClient) {}
 
-    getUser(username: string) {
-        return this.http.get(`${this.apiUrl}?username=${username}`);
+    getUser(username: string, deep: boolean = false) {
+        return this.http.get(`${this.apiUrl}?username=${username}&deep=${deep}`);
     }
 
 }

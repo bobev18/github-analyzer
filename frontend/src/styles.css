@@ -312,6 +312,133 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Search Options & Toggle */
+.search-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.search-options {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  transition: 0.3s;
+  border: 1px solid var(--glass-border);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle input:checked + .slider {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Warning & Info Banners */
+.warning-container, .info-container {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.warning-card {
+  background: rgba(255, 159, 26, 0.1);
+  border: 1px solid rgba(255, 159, 26, 0.2);
+  color: #ff9f1a;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+}
+
+.warning-content strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.warning-content p {
+  color: var(--text-main);
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.info-card {
+  background: rgba(0, 210, 255, 0.1);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  color: var(--accent-secondary);
+  padding: 1.25rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-icon {
+  font-size: 1.25rem;
+}
+
+.no-followers {
+  background: rgba(125, 95, 255, 0.05);
+  border-color: rgba(125, 95, 255, 0.2);
+  color: var(--accent-primary);
+}
+
+.no-followers p {
+  color: var(--text-main);
+}
+
+.muted {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 footer {
   margin-top: 6rem;
   text-align: center;

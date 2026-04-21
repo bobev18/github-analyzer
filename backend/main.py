@@ -15,12 +15,12 @@ app.add_middleware(
 )
 
 @app.get("/api/user")
-def get_user(username: str):
+def get_user(username: str, deep: bool = False):
     user_data = get_user_data(username)
     if not user_data:
         raise HTTPException(status_code=404, detail=f"User '{username}' not found")
 
-    repos_data = get_user_repos(username)
+    repos_data, is_partial = get_user_repos(username, deep=deep)
     
     user = GitHubUser(
         username=username,
@@ -29,7 +29,8 @@ def get_user(username: str):
         bio=user_data.get("bio"),
         company=user_data.get("company"),
         location=user_data.get("location"),
-        blog=user_data.get("blog")
+        blog=user_data.get("blog"),
+        is_partial=is_partial
     )
     
     return user.to_dict()
