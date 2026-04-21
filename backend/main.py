@@ -48,7 +48,10 @@ def get_user(request: Request, username: str, deep: bool = False):
     elif user_response.status_code in [403, 429]:
         raise HTTPException(status_code=403, detail="GitHub API rate limit exceeded. Please try again later.")
     elif user_response.status_code != 200:
-        raise HTTPException(status_code=user_response.status_code, detail="Failed to fetch user data from GitHub")
+        raise HTTPException(
+            status_code=user_response.status_code, 
+            detail=f"GitHub API error (Status {user_response.status_code}): Failed to fetch user data"
+        )
 
     user_data = user_response.json()
 
