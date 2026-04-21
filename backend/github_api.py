@@ -6,13 +6,14 @@ load_dotenv()
 
 BASE_URL = "https://api.github.com"
 TOKEN = os.getenv("GITHUB_TOKEN")
+AUTH_ENABLED = os.getenv("GITHUB_AUTH_ENABLED", "true").lower() == "true"
 
 
 def get_headers():
     headers = {
         "Accept": "application/vnd.github.v3+json"
     }
-    if TOKEN:
+    if TOKEN and AUTH_ENABLED:
         headers["Authorization"] = f"token {TOKEN}"
     return headers
 
