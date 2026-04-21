@@ -11,11 +11,11 @@ services:
       - key: GITHUB_AUTH_ENABLED
         value: "true"
       - key: ALLOWED_ORIGINS
-        value: "http://localhost:4200" # Update this in Render dashboard after frontend is deployed
+        value: "https://github-analyzer.onrender.com"
 
   # Frontend static hosting
   - type: static
-    name: github-analyzer-frontend
+    name: github-analyzer
     rootDirectory: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist/frontend/browser
