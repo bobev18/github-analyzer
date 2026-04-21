@@ -16,9 +16,15 @@ app.add_middleware(
 
 @app.get("/api/user")
 def get_user(username: str, deep: bool = False):
-    user_data = get_user_data(username)
-    if not user_data:
+    user_response = get_user_data(username)
+    if user_response.status_code == 404:
         raise HTTPException(status_code=404, detail=f"User '{username}' not found")
+    elif user_response.status_code in [403, 429]:
+        raise HTTPException(status_code=403, detail="GitHub API rate limit exceeded. Please try again later.")
+    elif user_response.status_code != 200:
+        raise HTTPException(status_code=user_response.status_code, detail="Failed to fetch user data from GitHub")
+
+    user_data = user_response.json()
 
     repos_data, is_partial = get_user_repos(username, deep=deep)
     

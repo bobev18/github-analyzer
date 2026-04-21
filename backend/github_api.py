@@ -12,7 +12,8 @@ AUTH_ENABLED = os.getenv("GITHUB_AUTH_ENABLED", "true").lower() == "true"
 
 def get_headers():
     headers = {
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "GitHub-Analyzer-App"
     }
     if TOKEN and AUTH_ENABLED:
         headers["Authorization"] = f"token {TOKEN}"
@@ -21,13 +22,11 @@ def get_headers():
 
 def get_user_data(username):
     """
-    call the GitHub API and return a dict with data or None
+    Fetch user data from GitHub API.
+    Returns: response object
     """
     url = f"{BASE_URL}/users/{username}"
-    response = requests.get(url, headers=get_headers())
-    if response.status_code == 200:
-        return response.json()
-    return None
+    return requests.get(url, headers=get_headers())
 
 
 def get_repo_languages(owner, repo):
