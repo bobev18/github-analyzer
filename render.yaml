@@ -1,0 +1,20 @@
+services:
+  # Backend API logic
+  - type: web
+    name: github-analyzer-api
+    runtime: python
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GITHUB_TOKEN
+        sync: false # Must be set in the Render dashboard
+      - key: GITHUB_AUTH_ENABLED
+        value: "true"
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:4200" # Update this in Render dashboard after frontend is deployed
+
+  # Frontend static hosting
+  - type: static
+    name: github-analyzer-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist/frontend/browser

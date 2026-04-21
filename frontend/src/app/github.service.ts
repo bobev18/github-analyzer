@@ -8,16 +8,23 @@ import { HttpClient } from '@angular/common/http';
 
 export class GithubService {
 
-    private apiUrl = 'http://127.0.0.1:8000/api/user';
+    private getBaseUrl(): string {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocal) {
+            return 'http://127.0.0.1:8000';
+        }
+        return (window as any).API_URL || window.location.origin;
+    }
 
     constructor(private http: HttpClient) {}
 
     getUser(username: string, deep: boolean = false) {
-        return this.http.get(`${this.apiUrl}?username=${username}&deep=${deep}`);
+        const apiUrl = `${this.getBaseUrl()}/api/user`;
+        return this.http.get(`${apiUrl}?username=${username}&deep=${deep}`);
     }
 
     getConfig() {
-        return this.http.get('http://127.0.0.1:8000/api/config');
+        return this.http.get(`${this.getBaseUrl()}/api/config`);
     }
 
 }

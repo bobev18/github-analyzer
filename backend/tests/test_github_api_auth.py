@@ -4,7 +4,7 @@ import github_api
 
 def test_get_headers_auth_enabled():
     """Test that Authorization header is present when enabled."""
-    with patch('github_api.TOKEN', 'fake-token'), \
+    with patch('github_api.GITHUB_TOKEN', 'fake-token'), \
          patch('github_api.AUTH_ENABLED', True):
         headers = github_api.get_headers()
         assert "Authorization" in headers
@@ -12,14 +12,14 @@ def test_get_headers_auth_enabled():
 
 def test_get_headers_auth_disabled():
     """Test that Authorization header is absent when disabled."""
-    with patch('github_api.TOKEN', 'fake-token'), \
+    with patch('github_api.GITHUB_TOKEN', 'fake-token'), \
          patch('github_api.AUTH_ENABLED', False):
         headers = github_api.get_headers()
         assert "Authorization" not in headers
 
 def test_get_headers_no_token():
     """Test that Authorization header is absent when no token is present."""
-    with patch('github_api.TOKEN', None), \
+    with patch('github_api.GITHUB_TOKEN', None), \
          patch('github_api.AUTH_ENABLED', True):
         headers = github_api.get_headers()
         assert "Authorization" not in headers
@@ -32,7 +32,7 @@ def test_api_calls_use_auth_header_when_enabled(mock_get):
     mock_response.json.return_value = {}
     mock_get.return_value = mock_response
     
-    with patch('github_api.TOKEN', 'fake-token'), \
+    with patch('github_api.GITHUB_TOKEN', 'fake-token'), \
          patch('github_api.AUTH_ENABLED', True):
         github_api.get_user_data("testuser")
         
@@ -48,7 +48,7 @@ def test_api_calls_exclude_auth_header_when_disabled(mock_get):
     mock_response.json.return_value = {}
     mock_get.return_value = mock_response
     
-    with patch('github_api.TOKEN', 'fake-token'), \
+    with patch('github_api.GITHUB_TOKEN', 'fake-token'), \
          patch('github_api.AUTH_ENABLED', False):
         github_api.get_user_data("testuser")
         

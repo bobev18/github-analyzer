@@ -77,3 +77,14 @@ def test_get_user_rate_limited():
         response = client.get("/api/user?username=anyuser")
         assert response.status_code == 403
         assert "rate limit exceeded" in response.json()["detail"].lower()
+
+def test_get_user_invalid_username():
+    # Test with special characters
+    response = client.get("/api/user?username=invalid@user")
+    assert response.status_code == 400
+    assert "Invalid GitHub username format" in response.json()["detail"]
+
+    # Test with too long username
+    response = client.get("/api/user?username=" + "a" * 40)
+    assert response.status_code == 400
+    assert "Invalid GitHub username format" in response.json()["detail"]
