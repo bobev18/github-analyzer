@@ -16,8 +16,8 @@ export class GithubService {
             return 'http://127.0.0.1:8000';
         }
         
-        // Fallback to the production backend URL on Render
-        return (window as any).API_URL || 'https://github-analyzer-api.onrender.com';
+        // Fallback to the production backend URL on Render (assigned URL)
+        return (window as any).API_URL || 'https://github-analyzer-api-b8or.onrender.com';
     }
 
     constructor(private http: HttpClient) {}

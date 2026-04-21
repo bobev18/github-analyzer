@@ -27,6 +27,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {"status": "healthy", "service": "github-analyzer-api"}
+
 @app.get("/api/config")
 def get_config():
     return get_shared_config()
