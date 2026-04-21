@@ -15,3 +15,10 @@
 ## [x] Ticket #4: Explicit GitHub Token Configuration
 **Description**: The backend automatically uses `GITHUB_TOKEN` if present in `.env`.
 **Requirement**: Introduce a configuration check (e.g., `GITHUB_AUTH_ENABLED` boolean) to allow developers to explicitly disable authentication for testing rate-limiting behavior or "guest" mode.
+
+## [ ] Ticket #5: Resolve missing dependencies
+*See standalone ticket definition in [ticket_05.md](file:///d:/gits/github-analyzer/docs/ticket_05.md)*
+
+## [ ] Ticket #6: Experimental GraphQL API Mode
+*See standalone ticket definition in [ticket_06.md](file:///d:/gits/github-analyzer/docs/ticket_06.md)*
+
