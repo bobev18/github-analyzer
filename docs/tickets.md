@@ -22,3 +22,6 @@
 ## [ ] Ticket #6: Experimental GraphQL API Mode
 *See standalone ticket definition in [ticket_06.md](file:///d:/gits/github-analyzer/docs/ticket_06.md)*
 
+## [ ] Ticket #7: Seamless Authentication via GitHub OAuth
+**Description**: Currently, users must manually provide a Personal Access Token in the `.env` file.
+**Requirement**: Implement GitHub OAuth 2.0 Web Flow to leverage the user's existing browser session, as outlined in the [proposal](file:///d:/gits/github-analyzer/docs/github_oauth_proposal.md).
