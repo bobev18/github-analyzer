@@ -26,6 +26,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 # Shared settings from project.json (with .env fallback for transition)
 GITHUB_AUTH_ENABLED = _config.get("github_auth_enabled", 
                                   os.getenv("GITHUB_AUTH_ENABLED", "true").lower() == "true")
+INCLUDE_TOPICS = _config.get("include_topics", False)
 
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200").split(",")
 
@@ -33,5 +34,6 @@ ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200").split(",
 def get_shared_config():
     """Returns only non-sensitive configuration."""
     return {
-        "github_auth_enabled": GITHUB_AUTH_ENABLED
+        "github_auth_enabled": GITHUB_AUTH_ENABLED,
+        "include_topics": INCLUDE_TOPICS
     }

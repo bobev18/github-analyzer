@@ -70,7 +70,12 @@ def get_user_repos(username, deep=False):
     
     def process_repo(r):
         nonlocal is_partial
-        repo_info = {"name": r["name"], "language": r["language"], "languages": {}}
+        repo_info = {
+            "name": r["name"], 
+            "language": r["language"], 
+            "languages": {},
+            "topics": r.get("topics", [])
+        }
         if deep:
             try:
                 repo_info["languages"] = get_repo_languages(username, r["name"])
@@ -88,6 +93,13 @@ def get_user_repos(username, deep=False):
                 if is_partial: # Stop early if we hit rate limits in sequential mode
                     break
     else:
-        result_repos = [{"name": r["name"], "language": r["language"], "languages": {}} for r in repos_data]
+        result_repos = [
+            {
+                "name": r["name"], 
+                "language": r["language"], 
+                "languages": {},
+                "topics": r.get("topics", [])
+            } for r in repos_data
+        ]
 
     return result_repos, is_partial

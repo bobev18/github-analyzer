@@ -1,4 +1,5 @@
 from collections import Counter
+from settings import INCLUDE_TOPICS
 
 
 class GitHubUser:
@@ -26,6 +27,12 @@ class GitHubUser:
             if detailed_langs:
                 for lang in detailed_langs.keys():
                     self._all_technologies_set.add(lang)
+            
+            # Optionally include topics in the technology stack
+            if INCLUDE_TOPICS:
+                topics = r.get("topics", [])
+                for topic in topics:
+                    self._all_technologies_set.add(topic)
 
     def get_most_used_language(self):
         """

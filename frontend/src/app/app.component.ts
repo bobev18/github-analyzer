@@ -14,7 +14,13 @@ Chart.register(...registerables);
 })
 
 export class AppComponent implements OnInit {
-    @ViewChild('techChart') techChartRef!: ElementRef;
+    @ViewChild('techChart') set techChart(content: ElementRef) {
+        if (content) {
+            this.techChartRef = content;
+            this.initChart();
+        }
+    }
+    private techChartRef!: ElementRef;
     
     githubUsername = '';
     deepAnalysis = false;
@@ -68,7 +74,8 @@ export class AppComponent implements OnInit {
             next: (response) => {
                 this.data = response;
                 this.loading = false;
-                setTimeout(() => this.initChart(), 0);
+                // No longer need setTimeout(() => this.initChart(), 0)
+                // The setter for @ViewChild will handle it when the DOM element is rendered
             },
             error: (err) => {
                 this.loading = false;
@@ -85,6 +92,11 @@ export class AppComponent implements OnInit {
 
     initChart() {
         if (!this.techChartRef || !this.data || !this.data.repos) return;
+        
+        // Ensure we don't create multiple charts on the same canvas
+        if (this.chart) {
+            this.chart.destroy();
+        }
 
         const languages = this.data.repos
             .map((r: any) => r.language)
