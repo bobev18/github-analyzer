@@ -24,6 +24,14 @@ describe('AppComponent', () => {
     expect(component.error).toBe("Please enter a GitHub username");
   });
 
+  it('should strip whitespaces from username', () => {
+    mockGithubService.getUser.mockReturnValue(of({}));
+    component.githubUsername = '  octocat  ';
+    component.search();
+    expect(component.githubUsername).toBe('octocat');
+    expect(mockGithubService.getUser).toHaveBeenCalledWith('octocat', false);
+  });
+
   it('should call service with deepAnalysis flag and update data on success', () => {
     const mockData = { username: 'testuser', followers: 10, is_partial: false };
     mockGithubService.getUser.mockReturnValue(of(mockData));

@@ -57,7 +57,8 @@ export class AppComponent implements OnInit {
     }
 
     search() {
-        if (!this.githubUsername.trim()) {
+        this.githubUsername = this.githubUsername.trim();
+        if (!this.githubUsername) {
             this.error = "Please enter a GitHub username";
             return;
         }
