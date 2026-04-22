@@ -129,7 +129,11 @@ export class AppComponent implements OnInit {
                         position: 'bottom',
                         labels: {
                             color: '#8b949e',
-                            font: { size: 12, family: 'Outfit' }
+                            font: { 
+                                size: labels.length > 10 ? 10 : 12, 
+                                family: 'Outfit' 
+                            },
+                            padding: labels.length > 10 ? 10 : 20
                         }
                     }
                 }
